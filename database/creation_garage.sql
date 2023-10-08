@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS article (
     id_article INTEGER PRIMARY KEY AUTOINCREMENT,
     piece_id INTEGER,
     supplier_id INTEGER,
-    quantitiy_stock INTEGER,
+    quantity_stock INTEGER,
     last_purchase_date TEXT NOT NULL,
     last_sale_date TEXT NOT NULL,
     selling_price DECIMAL(2, 10),    
@@ -126,7 +126,7 @@ VALUES
     (3, 'Piece 6', 6789012345678, 'Description for Piece 6', 35.75);
 
 -- Insertion dans la table article (8 articles)
-INSERT INTO article (piece_id, supplier_id, quantitiy_stock, last_purchase_date, last_sale_date, selling_price, picture_path)
+INSERT INTO article (piece_id, supplier_id, quantity_stock, last_purchase_date, last_sale_date, selling_price, picture_path)
 VALUES 
     (1, 1, 100, '2023-10-01', '2023-10-02', 12.50, 'path/to/picture1.jpg'),
     (2, 1, 150, '2023-10-03', '2023-10-04', 18.75, 'path/to/picture2.jpg'),
@@ -165,50 +165,3 @@ VALUES
     (4, 2),
     (5, 3),
     (6, 3);
-
---Requête pour afficher une liste de toutes les pièces
-SELECT 
-    piece.id_piece,
-    piece.manufacturer_id,
-    piece.name AS piece_name,
-    piece.ean_number,
-    piece.description,
-    piece.unit_price,
-    article.quantitiy_stock,
-    article.last_purchase_date,
-    article.last_sale_date,
-    article.selling_price,
-    article.picture_path,
-    area.name AS area_name
-FROM 
-    piece
-JOIN 
-    article ON piece.id_piece = article.piece_id
-JOIN 
-    article_area ON article.id_article = article_area.article_id
-JOIN 
-    area ON article_area.area_id = area.id_area
-ORDER BY piece.name;
-
-
---Requête pour afficher toutes les pièces de l'area 1
-SELECT 
-    piece.id_piece,
-    piece.manufacturer_id,
-    piece.name AS piece_name,
-    piece.ean_number,
-    piece.description,
-    piece.unit_price,
-    article.quantitiy_stock,
-    article.last_purchase_date,
-    article.last_sale_date,
-    article.selling_price,
-    article.picture_path
-FROM 
-    piece
-JOIN 
-    article ON piece.id_piece = article.piece_id
-JOIN 
-    article_area ON article.id_article = article_area.article_id
-WHERE 
-    article_area.area_id = 1;
