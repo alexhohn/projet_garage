@@ -94,54 +94,79 @@ CREATE TABLE IF NOT EXISTS piece_vehicule (
 
 --Fin création des tables--
 
--- Insertion dans la table supplier
-INSERT INTO supplier (name, adress, zip, country, name_resp, telephone, email)
-VALUES ('Supplier 1', 'Address 1', 12345, 'Country 1', 'Manager 1', 123456789, 'email1@example.com');
+    -- Insertion dans la table supplier
+    INSERT INTO supplier (name, adress, zip, country, name_resp, telephone, email)
+    VALUES 
+        ('Supplier 1', 'Address 1', 12345, 'Country 1', 'Manager 1', 123456789, 'email1@example.com'),
+        ('Supplier 2', 'Address 2', 23456, 'Country 2', 'Manager 2', 234567890, 'email2@example.com'),
+        ('Supplier 3', 'Address 3', 34567, 'Country 3', 'Manager 3', 345678901, 'email3@example.com');
 
 -- Insertion dans la table manufacturer
 INSERT INTO manufacturer (name, adress, zip, country)
-VALUES ('Manufacturer 1', 'Manufacturer Address 1', 54321, 'Manufacturer Country 1');
+VALUES 
+    ('Manufacturer 1', 'Manufacturer Address 1', 54321, 'Manufacturer Country 1'),
+    ('Manufacturer 2', 'Manufacturer Address 2', 65432, 'Manufacturer Country 2'),
+    ('Manufacturer 3', 'Manufacturer Address 3', 76543, 'Manufacturer Country 3');
 
 -- Insertion dans la table area
 INSERT INTO area (name)
-VALUES ('Area 1');
+VALUES 
+    ('Area 1'),
+    ('Area 2'),
+    ('Area 3');
 
--- Insertion dans la table piece (4 pièces)
+-- Insertion dans la table piece (6 pièces)
 INSERT INTO piece (manufacturer_id, name, ean_number, description, unit_price)
-VALUES (1, 'Piece 1', 1234567890123, 'Description for Piece 1', 10.50),
-       (1, 'Piece 2', 2345678901234, 'Description for Piece 2', 15.75),
-       (1, 'Piece 3', 3456789012345, 'Description for Piece 3', 20.00),
-       (1, 'Piece 4', 4567890123456, 'Description for Piece 4', 25.25);
+VALUES 
+    (1, 'Piece 1', 1234567890123, 'Description for Piece 1', 10.50),
+    (1, 'Piece 2', 2345678901234, 'Description for Piece 2', 15.75),
+    (1, 'Piece 3', 3456789012345, 'Description for Piece 3', 20.00),
+    (2, 'Piece 4', 4567890123456, 'Description for Piece 4', 25.25),
+    (2, 'Piece 5', 5678901234567, 'Description for Piece 5', 30.50),
+    (3, 'Piece 6', 6789012345678, 'Description for Piece 6', 35.75);
 
--- Insertion dans la table article (5 articles)
+-- Insertion dans la table article (8 articles)
 INSERT INTO article (piece_id, supplier_id, quantitiy_stock, last_purchase_date, last_sale_date, selling_price, picture_path)
-VALUES (1, 1, 100, '2023-10-01', '2023-10-02', 12.50, 'path/to/picture1.jpg'),
-       (2, 1, 150, '2023-10-03', '2023-10-04', 18.75, 'path/to/picture2.jpg'),
-       (3, 1, 200, '2023-10-05', '2023-10-06', 22.00, 'path/to/picture3.jpg'),
-       (4, 1, 250, '2023-10-07', '2023-10-08', 27.25, 'path/to/picture4.jpg'),
-       (1, 1, 300, '2023-10-09', '2023-10-10', 30.50, 'path/to/picture5.jpg');
+VALUES 
+    (1, 1, 100, '2023-10-01', '2023-10-02', 12.50, 'path/to/picture1.jpg'),
+    (2, 1, 150, '2023-10-03', '2023-10-04', 18.75, 'path/to/picture2.jpg'),
+    (3, 1, 200, '2023-10-05', '2023-10-06', 22.00, 'path/to/picture3.jpg'),
+    (4, 2, 250, '2023-10-07', '2023-10-08', 27.25, 'path/to/picture4.jpg'),
+    (5, 2, 300, '2023-10-09', '2023-10-10', 30.50, 'path/to/picture5.jpg'),
+    (6, 3, 350, '2023-10-11', '2023-10-12', 35.75, 'path/to/picture6.jpg'),
+    (1, 3, 400, '2023-10-13', '2023-10-14', 40.00, 'path/to/picture7.jpg'),
+    (2, 2, 450, '2023-10-15', '2023-10-16', 45.25, 'path/to/picture8.jpg');
 
--- Insertion dans la table article_area (5 articles)
+-- Insertion dans la table article_area (8 articles)
 INSERT INTO article_area (article_id, area_id)
-VALUES (1, 1),
-       (2, 1),
-       (3, 1),
-       (4, 1),
-       (5, 1);
+VALUES 
+    (1, 1),
+    (2, 1),
+    (3, 1),
+    (4, 1),
+    (5, 2),
+    (6, 2),
+    (7, 3),
+    (8, 3);
 
--- Insertion dans la table vehicule
+-- Insertion dans la table vehicule (3 véhicules)
 INSERT INTO vehicule (manufacturer_id, model, year, engine_type)
-VALUES (1, 'Car Model 1', 2023, 'Petrol');
+VALUES 
+    (1, 'Car Model 1', 2023, 'Petrol'),
+    (2, 'Car Model 2', 2023, 'Diesel'),
+    (3, 'Car Model 3', 2023, 'Electric');
 
--- Insertion dans la table piece_vehicule (4 pièces)
+-- Insertion dans la table piece_vehicule (6 pièces)
 INSERT INTO piece_vehicule (piece_id, vehicule_id)
-VALUES (1, 1),
-       (2, 1),
-       (3, 1),
-       (4, 1);
+VALUES 
+    (1, 1),
+    (2, 1),
+    (3, 2),
+    (4, 2),
+    (5, 3),
+    (6, 3);
 
-
---Requête pour afficher toutes les pièces
+--Requête pour afficher une liste de toutes les pièces
 SELECT 
     piece.id_piece,
     piece.manufacturer_id,
