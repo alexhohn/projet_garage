@@ -14,9 +14,9 @@ CREATE TABLE IF NOT EXISTS supplier (
     name TEXT NOT NULL,
     adress TEXT,
     zip INTEGER,
-    country TEXT,
-    name_resp TEXT,
-    telephone INTEGER,
+    country TEXT NOT NULL,
+    name_resp TEXT NOT NULL,
+    telephone TEXT NOT NULL,
     email TEXT,
     Unique (name)
 );
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS manufacturer (
     name TEXT NOT NULL,
     adress TEXT,
     zip INTEGER,
-    country TEXT
+    country TEXT  NOT NULL
 );
 
 -- table area
@@ -39,34 +39,34 @@ CREATE TABLE IF NOT EXISTS area (
 -- table piece
 CREATE TABLE IF NOT EXISTS piece (
     id_piece INTEGER PRIMARY KEY AUTOINCREMENT,
-    manufacturer_id INTEGER,
+    manufacturer_id INTEGER NOT NULL,
     name TEXT NOT NULL,
-    ean_number INTEGER,
-    description TEXT,
-    unit_price DECIMAL(2, 10),
-    FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(id_manufacturer),
+    ean_number TEXT NOT NULL,
+    description TEXT NOT NULL,
+    unit_price DECIMAL(2, 10) NOT NULL,
+    FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(id_manufacturer) NOT NULL,
     UNIQUE (ean_number)
 );
 
 --table article
 CREATE TABLE IF NOT EXISTS article (
     id_article INTEGER PRIMARY KEY AUTOINCREMENT,
-    piece_id INTEGER,
-    supplier_id INTEGER,
-    quantity_stock INTEGER,
+    piece_id INTEGER NOT NULL,
+    supplier_id INTEGER NOT NULL,
+    quantity_stock INTEGER NOT NULL,
     last_purchase_date TEXT NOT NULL,
-    last_sale_date TEXT NOT NULL,
+    last_sale_date TEXT,
     selling_price DECIMAL(2, 10),    
-    picture_path TEXT,
+    picture_path TEXT NOT NULL,
     FOREIGN KEY (piece_id) REFERENCES piece(id_piece)
     FOREIGN KEY (supplier_id) REFERENCES supplier(id_supplier)
 );
 
---table INTEGERermédiaire article_area
+--table intermédiaire article_area
 CREATE TABLE IF NOT EXISTS article_area (
     id_article_area INTEGER PRIMARY KEY AUTOINCREMENT,
-    article_id INTEGER,
-    area_id INTEGER,
+    article_id INTEGER NOT NULL,
+    area_id INTEGER NOT NULL,
     FOREIGN KEY (article_id) REFERENCES article(id_article),
     FOREIGN KEY (area_id) REFERENCES area(id_area),
     UNIQUE (article_id, area_id)
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS article_area (
 --table vehicule
 CREATE TABLE IF NOT EXISTS vehicule (
     id_vehicule INTEGER PRIMARY KEY AUTOINCREMENT,
-    manufacturer_id INTEGER,
+    manufacturer_id INTEGER NOT NULL,
     model TEXT NOT NULL,
     year INTEGER NOT NULL,
     engine_type TEXT NOT NULL,
@@ -85,8 +85,8 @@ CREATE TABLE IF NOT EXISTS vehicule (
 --table INTEGERermédiaire piece_vehicule
 CREATE TABLE IF NOT EXISTS piece_vehicule (
     id_piece_vehicule INTEGER PRIMARY KEY AUTOINCREMENT,
-    piece_id INTEGER,
-    vehicule_id INTEGER,
+    piece_id INTEGER NOT NULL,
+    vehicule_id INTEGER NOT NULL,
     FOREIGN KEY (piece_id) REFERENCES piece(id_piece),
     FOREIGN KEY (vehicule_id) REFERENCES vehicule(id_vehicule),
     UNIQUE (piece_id, vehicule_id)
@@ -94,12 +94,12 @@ CREATE TABLE IF NOT EXISTS piece_vehicule (
 
 --Fin création des tables--
 
-    -- Insertion dans la table supplier
-    INSERT INTO supplier (name, adress, zip, country, name_resp, telephone, email)
-    VALUES 
-        ('Supplier 1', 'Address 1', 12345, 'Country 1', 'Manager 1', 123456789, 'email1@example.com'),
-        ('Supplier 2', 'Address 2', 23456, 'Country 2', 'Manager 2', 234567890, 'email2@example.com'),
-        ('Supplier 3', 'Address 3', 34567, 'Country 3', 'Manager 3', 345678901, 'email3@example.com');
+-- Insertion dans la table supplier
+INSERT INTO supplier (name, adress, zip, country, name_resp, telephone, email)
+VALUES 
+    ('Supplier 1', 'Address 1', 12345, 'Country 1', 'Manager 1', 123456789, 'email1@example.com'),
+    ('Supplier 2', 'Address 2', 23456, 'Country 2', 'Manager 2', 234567890, 'email2@example.com'),
+    ('Supplier 3', 'Address 3', 34567, 'Country 3', 'Manager 3', 345678901, 'email3@example.com');
 
 -- Insertion dans la table manufacturer
 INSERT INTO manufacturer (name, adress, zip, country)

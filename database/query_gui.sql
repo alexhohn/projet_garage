@@ -1,9 +1,8 @@
-
---Requête pour afficher une liste de toutes les pièces
+--Requête pour afficher une liste de toutes les pièces : OK
 SELECT 
     piece.id_piece,
     piece.manufacturer_id,
-    piece.name AS piece_name,
+    piece.name,
     piece.ean_number,
     piece.description,
     piece.unit_price,
@@ -24,7 +23,7 @@ JOIN
 ORDER BY piece.name;
 
 
---Requête pour afficher toutes les pièces de l'area 1
+--Requête pour afficher toutes les pièces de l'area 1 :OK
 SELECT 
     piece.id_piece,
     piece.manufacturer_id,
@@ -46,20 +45,19 @@ JOIN
 WHERE 
     article_area.area_id = 1;
 
-
 --Mettre à jour la quantité en stock d'un article : OK
 UPDATE article
 SET quantity_stock = 150
 WHERE id_article = 1;
 
 -- Obtenir la liste des articles dans une zone de stockage donnée : OK
-SELECT a.id_article, a.piece_id, a.supplier_id, a.quantitiy_stock, a.last_purchase_date, a.last_sale_date, a.selling_price, a.picture_path
+SELECT a.id_article, a.piece_id, a.supplier_id, a.quantity_stock, a.last_purchase_date, a.last_sale_date, a.selling_price, a.picture_path
 FROM article AS a
 JOIN article_area AS aa ON a.id_article = aa.article_id
 WHERE aa.area_id = 1;
 
 -- Obtenir la liste des articles par fournisseur : OK
-SELECT a.id_article, a.piece_id, a.quantitiy_stock, a.last_purchase_date, a.last_sale_date, a.selling_price, a.picture_path
+SELECT a.id_article, a.piece_id, a.quantity_stock, a.last_purchase_date, a.last_sale_date, a.selling_price, a.picture_path
 FROM article AS a
 WHERE a.supplier_id = 1;
 
@@ -77,10 +75,10 @@ JOIN vehicule ON piece_vehicule.vehicule_id = vehicule.id_vehicule
 WHERE vehicule.id_vehicule = 2;
 
 -- Obtenir la liste des articles dans le stock avec leur quantité disponible : OK
-SELECT id_article, piece_id, supplier_id, quantitiy_stock, last_purchase_date, last_sale_date, selling_price, picture_path
+SELECT id_article, piece_id, supplier_id, quantity_stock, last_purchase_date, last_sale_date, selling_price, picture_path
 FROM article;
 
---Obtenir la liste des zones de stockage avec le nombre d'articles qu'elles contiennent :
+--Obtenir la liste des zones de stockage avec le nombre d'articles qu'elles contiennent : OK
 SELECT area.name, COUNT(article_area.article_id) as article_count
 FROM area
 LEFT JOIN article_area ON area.id_area = article_area.area_id
@@ -92,7 +90,7 @@ FROM supplier
 LEFT JOIN article ON supplier.id_supplier = article.supplier_id
 GROUP BY supplier.name;
 
---Obtenir la liste des véhicules dans le stock : OK
+--Obtenir la liste des véhicules dans la bd : OK
 SELECT vehicule.model, vehicule.year, manufacturer.name as manufacturer_name
 FROM vehicule
 JOIN manufacturer ON vehicule.manufacturer_id = manufacturer.id_manufacturer;
@@ -104,7 +102,7 @@ JOIN article ON piece.id_piece = article.piece_id
 WHERE piece.id_piece = 4;
 
  -- Obtenir la liste des articles dans une zone de stockage spécifique : OK
-SELECT a.id_article, a.piece_id, a.supplier_id, a.quantitiy_stock, a.last_purchase_date, a.last_sale_date, a.selling_price, a.picture_path
+SELECT a.id_article, a.piece_id, a.supplier_id, a.quantity_stock, a.last_purchase_date, a.last_sale_date, a.selling_price, a.picture_path
 FROM article AS a
 JOIN article_area AS aa ON a.id_article = aa.article_id
 WHERE aa.area_id = VotreZoneID;
@@ -115,3 +113,12 @@ FROM piece
 JOIN piece_vehicule ON piece.id_piece = piece_vehicule.piece_id
 JOIN vehicule ON piece_vehicule.vehicule_id = vehicule.id_vehicule
 WHERE vehicule.id_vehicule = 1;
+
+--script d'insertion complète d'un article avec son emplacement
+INSERT INTO article (piece_id, supplier_id, quantity_stock, last_purchase_date, last_sale_date, selling_price, picture_path)
+VALUES 
+(1, 1, 50, '2023-10-25', '2023-10-26', 19.99, 'path/to/new_picture.jpg');
+
+-- Associer l'article à un emplacement de stockage
+INSERT INTO article_area (article_id, area_id)
+VALUES (LAST_INSERT_ROWID(), 1);  -- LAST_INSERT_ROWID() permet de selectionner l'id de la dernière ligne insérée
