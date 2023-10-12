@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS piece (
     name TEXT NOT NULL,
     ean_number TEXT NOT NULL,
     description TEXT NOT NULL,
-    unit_price DECIMAL(2, 10) NOT NULL,
+    unit_price DECIMAL(2, 10) NOT NULL DEFAULT 0,
     FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(id_manufacturer) NOT NULL,
     UNIQUE (ean_number)
 );
