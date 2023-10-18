@@ -31,13 +31,15 @@ class MainWindow(QMainWindow):
 
             requetes_liste = requetes.split(';')
 
+            i = 0
             for requete in requetes_liste:
+                i = i + 1
                 try:
                     cur.execute(requete)
                 except sqlite3.Error as e:
-                    print("Erreur lors de l'exécution de la requête :", e)
+                    print("Erreur lors de l'exécution de la requête :", e,"Requête numro :", i, "Requête :",requete )
                 else:
-                    print("Requête exécutée avec succès.")
+                    print("Requête exécutée avec succès. Requête numéro :", i, "Requête :",requete )
 
             conn.commit()
             conn.close()
