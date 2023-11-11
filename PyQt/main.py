@@ -4,6 +4,7 @@ from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QTableWidgetItem
 from PyQt5 import QtCore
+
 import sqlite3
 
 script_path = os.path.abspath(__file__)
@@ -28,23 +29,29 @@ class MainWindow(QMainWindow):
         self.tableWidget.setColumnWidth(4, 150)
         self.tableWidget.setColumnWidth(5, 150)
 
-        # Mettez à jour cette ligne pour récupérer les noms de colonnes à partir de la base de données
-        self.columnNames = self.get_column_names()
+         # Les colonnes que vous voulez afficher dans la combobox
+        self.columnNames = [
+            "article.id_article", 
+            "piece_name", 
+            "supplier_name",
+            "quantity_stock", 
+            "last_purchase_date", 
+            "last_sale_date",
+            "selling_price", 
+            "location",
+            "picture_path"
+        ]
 
         # Remplir la QComboBox avec les noms des colonnes
-        self.comboBox_Recherche.addItems(self.columnNames)
+        self.fill_combobox()
 
         # Connecter le bouton "Rechercher" à la méthode loaddata
         self.pushButton_Recherche.clicked.connect(self.loaddata)
 
-    def get_column_names(self):
-        # Fonction pour récupérer dynamiquement les noms de colonnes à partir de la base de données
-        connection = sqlite3.connect('ma_base_de_donnees.db')
-        cur = connection.cursor()
-        cur.execute("PRAGMA table_info(article)")  # Remplacez 'article' par le nom de votre table
-        columns = [column[1] for column in cur.fetchall()]
-        connection.close()
-        return columns
+    def fill_combobox(self):
+        # Remplir la QComboBox avec les noms des colonnes
+        self.comboBox_Recherche.addItems(self.columnNames)
+
 
     def loaddata(self):
         # Effacer le contenu actuel de la table
@@ -121,8 +128,6 @@ class MainWindow(QMainWindow):
         # Fermez la connexion à la base de données après avoir terminé
         connection.close()
 
-
-print("Répertoire de travail actuel :", os.getcwd())
 # main
 app = QtWidgets.QApplication(sys.argv)
 mainwindow = MainWindow()
