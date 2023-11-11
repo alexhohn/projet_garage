@@ -23,7 +23,7 @@ class MainWindow(QMainWindow):
         file_path = """C:\\Users\\alexa\\Documents\\DocumentsAHN\\02_Etudes\\01_HEIG-VD\\03_2324\\Branches 2324\\ProjDec1\\projet_garage\\database\\creation_garage.sql"""
 
         if file_path:
-            conn = sqlite3.connect('ma_base_de_donnees.db')
+            conn = sqlite3.connect('PyQt\\ma_base_de_donnees.db')
             cur = conn.cursor()
 
             with open(file_path, 'r') as file:
