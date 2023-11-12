@@ -33,7 +33,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="iconSize">
        <size>
@@ -82,6 +82,9 @@
           <width>951</width>
           <height>531</height>
          </rect>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
         </property>
         <column>
          <property name="text">
@@ -140,14 +143,104 @@
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="TabAjouter">
-       <attribute name="title">
-        <string>Ajouter</string>
-       </attribute>
-      </widget>
       <widget class="QWidget" name="TabModifier">
        <attribute name="title">
         <string>Modifier</string>
+       </attribute>
+       <widget class="QTableWidget" name="tableWidget_3">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>110</y>
+          <width>961</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::AllEditTriggers</set>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <column>
+         <property name="text">
+          <string>No. article</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Pièce</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Fournisseur</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Quantité en stock</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Date d'aquisition</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Date dernière vente</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Prix de vente</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Emplacement</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Chemin image</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QPushButton" name="pushButton_Modifier">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>230</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Modifier</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_Supprimer">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>230</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Supprimer</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="TabAjouter">
+       <attribute name="title">
+        <string>Ajouter</string>
        </attribute>
       </widget>
      </widget>

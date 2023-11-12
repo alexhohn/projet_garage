@@ -1,1 +1,0 @@
-pyuic5 -x Garage.ui -o Garage.py
