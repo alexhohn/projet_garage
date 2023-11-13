@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>216</width>
-    <height>196</height>
+    <width>225</width>
+    <height>204</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -17,13 +17,13 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Fabricant</string>
   </property>
   <widget class="QPushButton" name="pushButton_AjouterManufacturer">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>130</y>
+     <y>160</y>
      <width>181</width>
      <height>41</height>
     </rect>
@@ -36,9 +36,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
-     <width>167</width>
-     <height>96</height>
+     <y>50</y>
+     <width>181</width>
+     <height>101</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout_2">
@@ -69,6 +69,9 @@
       </property>
      </widget>
     </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="lineEdit_ZIP"/>
+    </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_11">
       <property name="text">
@@ -76,13 +79,30 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="lineEdit_ZIP"/>
-    </item>
     <item row="3" column="1">
      <widget class="QLineEdit" name="lineEdit_Country"/>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="label_12">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>211</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Ajouter un fabricant</string>
+   </property>
   </widget>
  </widget>
  <tabstops>

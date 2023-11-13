@@ -11,6 +11,59 @@ if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
 if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
+
+class NewAreaDialog(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        # Assurez-vous que le chemin vers le fichier UI est correct
+        loadUi('Form_NewArea.ui', self)  
+
+        self.pushButton_AjouterEmplacement.clicked.connect(self.accept)
+
+    def accept(self):
+        # Récupérez les informations de la nouvelle pièce des widgets
+        area_name = self.lineEdit_name.text()
+
+         # Vérifiez si tous les champs nécessaires sont remplis
+        if not area_name  <= 0:
+            self.show_message_box("Erreur", "Veuillez remplir tous les champs nécessaires.")
+            return
+
+        # Insérez la nouvelle pièce dans la base de données
+        connection = self.get_db_connection()
+        try:
+            cursor = connection.cursor()
+            cursor.execute("BEGIN")
+            cursor.execute('''
+                INSERT INTO area (name)
+                VALUES (?)
+            ''', (area_name,))
+            connection.commit()
+            # Affichez un message de succès et fermez le dialogue
+            self.show_message_box("Succès", "Nouvel emplacement ajouté avec succès.")
+            super().accept()
+        except sqlite3.IntegrityError as e:
+            connection.rollback()
+            self.show_message_box("Erreur d'intégrité", f"Une erreur d'intégrité des données est survenue: {e}")
+        except Exception as e:
+            connection.rollback()
+            self.show_message_box("Erreur", f"Une erreur est survenue lors de l'ajout: {e}")
+        finally:
+            connection.close()
+
+    def get_db_connection(self):
+        # Retournez une nouvelle connexion à votre base de données
+        return sqlite3.connect('ma_base_de_donnees.db')
+
+    def show_message_box(self, title, message):
+        # Utilisez cette méthode pour afficher des messages à l'utilisateur
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Information)
+        msg_box.setWindowTitle(title)
+        msg_box.setText(message)
+        msg_box.setStandardButtons(QMessageBox.Ok)
+        msg_box.exec_()
+
 class NewManufacturerDialog(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -26,6 +79,11 @@ class NewManufacturerDialog(QtWidgets.QDialog):
         manufacturer_adress = self.lineEdit_Adresse.text()
         manufacturer_ZIP = self.lineEdit_ZIP.text()
         manufacturer_Country = self.lineEdit_Country.text()
+
+        # Vérifiez si tous les champs nécessaires sont remplis
+        if not manufacturer_name or not manufacturer_Country <= 0:
+            self.show_message_box("Erreur", "Veuillez remplir tous les champs nécessaires.")
+            return
 
         # Insérez la nouvelle pièce dans la base de données
         connection = self.get_db_connection()
@@ -62,7 +120,6 @@ class NewManufacturerDialog(QtWidgets.QDialog):
         msg_box.setStandardButtons(QMessageBox.Ok)
         msg_box.exec_()
 
-
 class NewMVehiculeDialog(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -88,6 +145,11 @@ class NewMVehiculeDialog(QtWidgets.QDialog):
         vehicule_model = self.lineEdit_ModelName.text()
         vehicule_year = self.lineEdit_Annee.text()
         vehicule_enginetype = self.lineEdit_EngineType.text()
+
+         # Vérifiez si tous les champs nécessaires sont remplis
+        if not manufacturer_id or not vehicule_model or not vehicule_year or not vehicule_enginetype <= 0:
+            self.show_message_box("Erreur", "Veuillez remplir tous les champs nécessaires.")
+            return
 
         # Insérez la nouvelle pièce dans la base de données
         connection = self.get_db_connection()
@@ -123,7 +185,6 @@ class NewMVehiculeDialog(QtWidgets.QDialog):
         msg_box.setText(message)
         msg_box.setStandardButtons(QMessageBox.Ok)
         msg_box.exec_()
-
 
 class NewPieceDialog(QtWidgets.QDialog):
     def __init__(self, parent=None):
@@ -168,6 +229,11 @@ class NewPieceDialog(QtWidgets.QDialog):
         description = self.plainTextEdit_DescriptionPiece.toPlainText()
         unit_price = self.doubleSpinBox_PrixPiece.value()
         
+        # Vérifiez si tous les champs nécessaires sont remplis
+        if not manufacturer_id or not piece_name or not ean_number or not description or unit_price <= 0:
+            self.show_message_box("Erreur", "Veuillez remplir tous les champs nécessaires.")
+            return
+
         # Insérez la nouvelle pièce dans la base de données
         connection = self.get_db_connection()
         try:
@@ -235,6 +301,11 @@ class NewSupplierDialog(QtWidgets.QDialog):
         supplier_telephone = self.lineEdit_telephone.text()
         supplier_email = self.lineEdit_email.text()
 
+         # Vérifiez si tous les champs nécessaires sont remplis
+        if not supplier_name or not supplier_country or not supplier_nameResp or not supplier_telephone <= 0:
+            self.show_message_box("Erreur", "Veuillez remplir tous les champs nécessaires.")
+            return
+
         # Insérez la nouvelle pièce dans la base de données
         connection = self.get_db_connection()
         try:
@@ -274,7 +345,9 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         loadUi('Garage.ui', self)
+        self.setWindowTitle("LOL")
         self.setup_ui()
+        
 
     def setup_ui(self):
         self.setup_table_widget()
@@ -337,7 +410,7 @@ class MainWindow(QMainWindow):
         self.loaddata()
 
     def open_new_location_dialog(self):
-        dialog = NewLocationDialog(self)
+        dialog = NewAreaDialog(self)
         if dialog.exec_():
             self.fill_comboboxes()
 
@@ -348,6 +421,12 @@ class MainWindow(QMainWindow):
 
     def open_new_supplier_dialog(self):
         dialog = NewSupplierDialog(self)
+        if dialog.exec_():
+            self.fill_comboboxes()
+            self.loaddata()
+
+    def open_new_area_dialog(self):
+        dialog = NewAreaDialog(self)
         if dialog.exec_():
             self.fill_comboboxes()
             self.loaddata()
@@ -457,23 +536,23 @@ class MainWindow(QMainWindow):
         # Récupérer les valeurs des widgets
         piece_id = self.comboBox_Piece.currentData()  # Obtient l'ID de la pièce sélectionnée
         area_id = self.comboBox_Emplacement.currentData()  # Obtient l'ID de l'emplacement sélectionné
+        supplier_id = self.comboBox_Supplier.currentData()
         quantity_stock = self.spinBox_Quantite.value()
         last_purchase_date = self.dateEdit_LastBuy.date().toString("yyyy-MM-dd")
         last_sale_date = self.dateEdit_LastSell.date().toString("yyyy-MM-dd")
         selling_price = self.doubleSpinBox_SellPrice.value()
+        picture_path = "Chemin/vers/image/imagey.jpeg"
         
+
+         # Vérifiez si tous les champs nécessaires sont remplis
+        if not piece_id or not area_id or not supplier_id or not quantity_stock or not last_purchase_date or not picture_path <= 0:
+            self.show_message_box("Erreur", "Veuillez remplir tous les champs nécessaires.")
+            return
+
         # Récupérer l'ID du fournisseur associé à la pièce sélectionnée
         connection = self.get_db_connection()
         try:
-            cursor = connection.cursor()
-            cursor.execute('SELECT supplier_id FROM piece WHERE id_piece = ?', (piece_id,))
-            supplier_row = cursor.fetchone()
-            if supplier_row:
-                supplier_id = supplier_row[0]
-            else:
-                self.show_message_box("Erreur", "Aucun fournisseur associé à cette pièce.")
-                return
-            
+            cursor = connection.cursor()            
             # Insérer l'article dans la base de données
             cursor.execute("BEGIN")
             cursor.execute('''
