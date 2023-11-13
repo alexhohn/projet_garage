@@ -11,6 +11,265 @@ if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
 if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
+class NewManufacturerDialog(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        # Assurez-vous que le chemin vers le fichier UI est correct
+        loadUi('Form_NewManufacturer.ui', self)  
+
+        self.pushButton_AjouterManufacturer.clicked.connect(self.accept)
+
+
+    def accept(self):
+        # Récupérez les informations de la nouvelle pièce des widgets
+        manufacturer_name = self.lineEdit_NomManufacturer.text()
+        manufacturer_adress = self.lineEdit_Adresse.text()
+        manufacturer_ZIP = self.lineEdit_ZIP.text()
+        manufacturer_Country = self.lineEdit_Country.text()
+
+        # Insérez la nouvelle pièce dans la base de données
+        connection = self.get_db_connection()
+        try:
+            cursor = connection.cursor()
+            cursor.execute("BEGIN")
+            cursor.execute('''
+                INSERT INTO manufacturer (name, adress, zip, country)
+                VALUES (?, ?, ?, ?)
+            ''', (manufacturer_name, manufacturer_adress, manufacturer_ZIP, manufacturer_Country))
+            connection.commit()
+            # Affichez un message de succès et fermez le dialogue
+            self.show_message_box("Succès", "Nouveau fabricant ajouté avec succès.")
+            super().accept()
+        except sqlite3.IntegrityError as e:
+            connection.rollback()
+            self.show_message_box("Erreur d'intégrité", f"Une erreur d'intégrité des données est survenue: {e}")
+        except Exception as e:
+            connection.rollback()
+            self.show_message_box("Erreur", f"Une erreur est survenue lors de l'ajout: {e}")
+        finally:
+            connection.close()
+
+    def get_db_connection(self):
+        # Retournez une nouvelle connexion à votre base de données
+        return sqlite3.connect('ma_base_de_donnees.db')
+
+    def show_message_box(self, title, message):
+        # Utilisez cette méthode pour afficher des messages à l'utilisateur
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Information)
+        msg_box.setWindowTitle(title)
+        msg_box.setText(message)
+        msg_box.setStandardButtons(QMessageBox.Ok)
+        msg_box.exec_()
+
+
+class NewMVehiculeDialog(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        # Assurez-vous que le chemin vers le fichier UI est correct
+        loadUi('Form_NewVehicule.ui', self)  
+        self.populate_manufacturers()
+        self.pushButton_AjouterVehicule.clicked.connect(self.accept)
+
+    def populate_manufacturers(self):
+        # Récupérez la liste des fabricants de votre base de données et ajoutez-les au comboBox
+        connection = self.get_db_connection()
+        cursor = connection.cursor()
+        cursor.execute("SELECT id_manufacturer, name FROM manufacturer")
+        manufacturers = cursor.fetchall()
+        self.comboBox_Manufacturer.clear()
+        for id_manufacturer, name in manufacturers:
+            self.comboBox_Manufacturer.addItem(name, id_manufacturer)
+        connection.close()
+
+    def accept(self):
+        # Récupérez les informations de la nouvelle pièce des widgets
+        manufacturer_id = self.comboBox_Manufacturer.currentData()
+        vehicule_model = self.lineEdit_ModelName.text()
+        vehicule_year = self.lineEdit_Annee.text()
+        vehicule_enginetype = self.lineEdit_EngineType.text()
+
+        # Insérez la nouvelle pièce dans la base de données
+        connection = self.get_db_connection()
+        try:
+            cursor = connection.cursor()
+            cursor.execute("BEGIN")
+            cursor.execute('''
+                INSERT INTO vehicule (manufacturer_id, model, year, engine_type)
+                VALUES (?, ?, ?, ?)
+            ''', (manufacturer_id, vehicule_model, vehicule_year, vehicule_enginetype))
+            connection.commit()
+            # Affichez un message de succès et fermez le dialogue
+            self.show_message_box("Succès", "Nouveau fabricant ajouté avec succès.")
+            super().accept()
+        except sqlite3.IntegrityError as e:
+            connection.rollback()
+            self.show_message_box("Erreur d'intégrité", f"Une erreur d'intégrité des données est survenue: {e}")
+        except Exception as e:
+            connection.rollback()
+            self.show_message_box("Erreur", f"Une erreur est survenue lors de l'ajout: {e}")
+        finally:
+            connection.close()
+
+    def get_db_connection(self):
+        # Retournez une nouvelle connexion à votre base de données
+        return sqlite3.connect('ma_base_de_donnees.db')
+
+    def show_message_box(self, title, message):
+        # Utilisez cette méthode pour afficher des messages à l'utilisateur
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Information)
+        msg_box.setWindowTitle(title)
+        msg_box.setText(message)
+        msg_box.setStandardButtons(QMessageBox.Ok)
+        msg_box.exec_()
+
+
+class NewPieceDialog(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        # Assurez-vous que le chemin vers le fichier UI est correct
+        loadUi('Form_NewPiece.ui', self)  
+        self.populate_manufacturers()
+        self.populate_vehicules()
+        # Connectez le bouton pour ajouter un nouveau fabricant si nécessaire
+        # Si la fonctionnalité n'est pas encore implémentée, vous pouvez commenter la ligne suivante
+        self.pushButton_NewManufacturer.clicked.connect(self.open_new_manufacturer_dialog)
+        self.pushButton_NewVehicule.clicked.connect(self.open_new_vehicule_dialog)
+        self.pushButton_AjouterPiece.clicked.connect(self.accept)
+
+    def populate_manufacturers(self):
+        # Récupérez la liste des fabricants de votre base de données et ajoutez-les au comboBox
+        connection = self.get_db_connection()
+        cursor = connection.cursor()
+        cursor.execute("SELECT id_manufacturer, name FROM manufacturer")
+        manufacturers = cursor.fetchall()
+        self.comboBox_Manufacturer.clear()
+        for id_manufacturer, name in manufacturers:
+            self.comboBox_Manufacturer.addItem(name, id_manufacturer)
+        connection.close()
+
+    def populate_vehicules(self):
+        # Récupérez la liste des fabricants de votre base de données et ajoutez-les au comboBox
+        connection = self.get_db_connection()
+        cursor = connection.cursor()
+        cursor.execute("SELECT id_vehicule, model FROM vehicule")
+        vehicule = cursor.fetchall()
+        self.comboBox_Vehicule.clear()
+        for id_vehicule, model in vehicule:
+            self.comboBox_Vehicule.addItem(model, id_vehicule)
+        connection.close()
+
+    def accept(self):
+        # Récupérez les informations de la nouvelle pièce des widgets
+        manufacturer_id = self.comboBox_Manufacturer.currentData()
+        piece_name = self.lineEdit_PieceName.text()
+        ean_number = self.lineEdit_EANPiece.text()
+        description = self.plainTextEdit_DescriptionPiece.toPlainText()
+        unit_price = self.doubleSpinBox_PrixPiece.value()
+        
+        # Insérez la nouvelle pièce dans la base de données
+        connection = self.get_db_connection()
+        try:
+            cursor = connection.cursor()
+            cursor.execute("BEGIN")
+            cursor.execute('''
+                INSERT INTO piece (manufacturer_id, name, ean_number, description, unit_price)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (manufacturer_id, piece_name, ean_number, description, unit_price))
+            connection.commit()
+            # Affichez un message de succès et fermez le dialogue
+            self.show_message_box("Succès", "Nouvelle pièce ajoutée avec succès.")
+            super().accept()
+        except sqlite3.IntegrityError as e:
+            connection.rollback()
+            self.show_message_box("Erreur d'intégrité", f"Une erreur d'intégrité des données est survenue: {e}")
+        except Exception as e:
+            connection.rollback()
+            self.show_message_box("Erreur", f"Une erreur est survenue lors de l'ajout de la pièce: {e}")
+        finally:
+            connection.close()
+
+    def get_db_connection(self):
+        # Retournez une nouvelle connexion à votre base de données
+        return sqlite3.connect('ma_base_de_donnees.db')
+
+    def show_message_box(self, title, message):
+        # Utilisez cette méthode pour afficher des messages à l'utilisateur
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Information)
+        msg_box.setWindowTitle(title)
+        msg_box.setText(message)
+        msg_box.setStandardButtons(QMessageBox.Ok)
+        msg_box.exec_()
+    
+    def open_new_manufacturer_dialog(self):
+        # Créez et affichez le dialogue pour une nouvelle pièce
+        dialog = NewManufacturerDialog(self)
+        dialog.exec_()  # Utilisez exec_() pour rendre le dialogue modal
+        self.populate_manufacturers()
+        self.populate_vehicules()
+
+    def open_new_vehicule_dialog(self):
+        # Créez et affichez le dialogue pour une nouvelle pièce
+        dialog = NewMVehiculeDialog(self)
+        dialog.exec_()  # Utilisez exec_() pour rendre le dialogue modal
+        self.populate_manufacturers()
+        self.populate_vehicules() 
+
+class NewSupplierDialog(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        # Assurez-vous que le chemin vers le fichier UI est correct
+        loadUi('Form_NewSupplier.ui', self)  
+        self.pushButton_AjouterFournisseur.clicked.connect(self.accept)
+
+
+    def accept(self):
+        # Récupérez les informations du nouveau fournisseur
+        supplier_name = self.lineEdit_Nom.text()
+        supplier_adress = self.lineEdit_Adresse.text()
+        supplier_zip = self.lineEdit_ZIP.text()
+        supplier_country = self.lineEdit_Country.text()
+        supplier_nameResp =self.lineEdit_RespName.text()
+        supplier_telephone = self.lineEdit_telephone.text()
+        supplier_email = self.lineEdit_email.text()
+
+        # Insérez la nouvelle pièce dans la base de données
+        connection = self.get_db_connection()
+        try:
+            cursor = connection.cursor()
+            cursor.execute("BEGIN")
+            cursor.execute('''
+                INSERT INTO supplier (name, adress, zip, country, name_resp, telephone, email)
+                VALUES (?, ?, ?, ?, ?, ? ,?)
+            ''', (supplier_name, supplier_adress, supplier_zip, supplier_country, supplier_nameResp, supplier_telephone, supplier_email))
+            connection.commit()
+            # Affichez un message de succès et fermez le dialogue
+            self.show_message_box("Succès", "Nouveau fournisseur ajouté avec succès.")
+            super().accept()
+        except sqlite3.IntegrityError as e:
+            connection.rollback()
+            self.show_message_box("Erreur d'intégrité", f"Une erreur d'intégrité des données est survenue: {e}")
+        except Exception as e:
+            connection.rollback()
+            self.show_message_box("Erreur", f"Une erreur est survenue lors de l'ajout: {e}")
+        finally:
+            connection.close()
+
+    def get_db_connection(self):
+        # Retournez une nouvelle connexion à votre base de données
+        return sqlite3.connect('ma_base_de_donnees.db')
+
+    def show_message_box(self, title, message):
+        # Utilisez cette méthode pour afficher des messages à l'utilisateur
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Information)
+        msg_box.setWindowTitle(title)
+        msg_box.setText(message)
+        msg_box.setStandardButtons(QMessageBox.Ok)
+        msg_box.exec_()
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -32,7 +291,6 @@ class MainWindow(QMainWindow):
             "location",
             "picture_path"
         ]
-        self.fill_combobox()
         self.fill_comboboxes()
         self.loaddata()
         self.TabPrincipale.setCurrentIndex(0)
@@ -52,22 +310,47 @@ class MainWindow(QMainWindow):
         self.tableWidget.itemDoubleClicked.connect(self.handle_double_click)
         self.pushButton_Modifier.clicked.connect(self.modifier_article)
         self.pushButton_Supprimer.clicked.connect(self.supprimer_article)
-        self.pushButton_Ajouter.clicked.connect(self.ajouter_article)
+        self.pushButton_AjouterArticle.clicked.connect(self.ajouter_article)
+        self.pushButton_newPiece.clicked.connect(self.open_new_piece_dialog)
+        self.pushButton_NewEmplacement.clicked.connect(self.open_new_location_dialog)
+        self.pushButton_NewSupplier.clicked.connect(self.open_new_supplier_dialog)
 
     def handle_double_click(self, item):
         if self.TabPrincipale.currentIndex() == 0:
             row = item.row()
             data = [self.tableWidget.item(row, col).text() for col in range(self.tableWidget.columnCount())]
             self.add_data_to_modifier_table(data)
+        self.TabPrincipale.setCurrentIndex(1)
 
     def add_data_to_modifier_table(self, data):
         self.tableWidget_3.setRowCount(1)
         for col, value in enumerate(data):
             self.tableWidget_3.setItem(0, col, QTableWidgetItem(value))
 
+    def open_new_piece_dialog(self):
+        # Créez et affichez le dialogue pour une nouvelle pièce
+        dialog = NewPieceDialog(self)
+        dialog.exec_()  # Utilisez exec_() pour rendre le dialogue modal
 
-    def fill_combobox(self):
-        self.comboBox_Recherche.addItems(self.columnNames)
+        # Après la fermeture du dialogue, vous pouvez rafraîchir les combobox ou la table si nécessaire
+        self.fill_comboboxes()
+        self.loaddata()
+
+    def open_new_location_dialog(self):
+        dialog = NewLocationDialog(self)
+        if dialog.exec_():
+            self.fill_comboboxes()
+
+    def open_new_manufacturer_dialog(self):
+        dialog = NewManufacturerDialog(self)
+        if dialog.exec_():
+            self.fill_comboboxes()
+
+    def open_new_supplier_dialog(self):
+        dialog = NewSupplierDialog(self)
+        if dialog.exec_():
+            self.fill_comboboxes()
+            self.loaddata()
 
     def modifier_article(self):
         selected_row = self.tableWidget_3.currentRow()
@@ -88,6 +371,7 @@ class MainWindow(QMainWindow):
             self.modifier_enregistrement(id_article, new_quantity_stock, new_area_id)
         else:
             self.show_message_box("Erreur", "Le nom de l'emplacement est invalide ou n'existe pas.")
+
     def supprimer_article(self):
         selected_row = self.tableWidget_3.currentRow()
         if selected_row == -1:
@@ -159,6 +443,7 @@ class MainWindow(QMainWindow):
         finally:
             connection.close()
             self.loaddata()
+            self.TabPrincipale.setCurrentIndex(0)
 
     def show_message_box(self, title, message):
         msg_box = QMessageBox()
@@ -177,18 +462,19 @@ class MainWindow(QMainWindow):
         last_sale_date = self.dateEdit_LastSell.date().toString("yyyy-MM-dd")
         selling_price = self.doubleSpinBox_SellPrice.value()
         
-        # Ici, vous pouvez ajouter un widget pour sélectionner le fournisseur ou le définir par programmation
-        # Pour cet exemple, je vais utiliser une valeur statique pour 'supplier_id'
-        supplier_id = 1  # Remplacez par la méthode appropriée pour obtenir l'ID du fournisseur réel
-        
-        # De même, pour 'picture_path', vous pouvez utiliser un QFileDialog pour obtenir un chemin de fichier
-        # Pour cet exemple, je vais utiliser un chemin statique
-        picture_path = "path/to/your/image.png"  # Remplacez par la méthode appropriée pour obtenir le chemin de l'image réel
-
-        # Insertion dans la base de données
+        # Récupérer l'ID du fournisseur associé à la pièce sélectionnée
         connection = self.get_db_connection()
         try:
             cursor = connection.cursor()
+            cursor.execute('SELECT supplier_id FROM piece WHERE id_piece = ?', (piece_id,))
+            supplier_row = cursor.fetchone()
+            if supplier_row:
+                supplier_id = supplier_row[0]
+            else:
+                self.show_message_box("Erreur", "Aucun fournisseur associé à cette pièce.")
+                return
+            
+            # Insérer l'article dans la base de données
             cursor.execute("BEGIN")
             cursor.execute('''
                 INSERT INTO article (piece_id, supplier_id, quantity_stock, last_purchase_date, last_sale_date, selling_price, picture_path)
@@ -214,10 +500,15 @@ class MainWindow(QMainWindow):
             connection.close()
         self.loaddata()
 
-
     def fill_comboboxes(self):
         connection = self.get_db_connection()
         cursor = connection.cursor()
+
+        # Vider les combobox existants pour éviter les doublons
+        self.comboBox_Piece.clear()
+        self.comboBox_Emplacement.clear()
+        self.comboBox_Recherche.clear()
+        self.comboBox_Supplier.clear()
 
         cursor.execute("SELECT id_piece, name FROM piece")
         for row in cursor.fetchall():
@@ -226,9 +517,13 @@ class MainWindow(QMainWindow):
         cursor.execute("SELECT id_area, name FROM area")
         for row in cursor.fetchall():
             self.comboBox_Emplacement.addItem(row[1], row[0])
+        
+        cursor.execute("SELECT id_supplier, name FROM supplier")
+        for row in cursor.fetchall():
+            self.comboBox_Supplier.addItem(row[1], row[0])
 
         connection.close()
-
+        self.comboBox_Recherche.addItems(self.columnNames)
 
     def loaddata(self):
         self.tableWidget.clearContents()

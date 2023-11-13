@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS vehicule (
     FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(id_manufacturer)
     );
 
---table INTEGERermédiaire piece_vehicule
+--table intermédiaire piece_vehicule
 CREATE TABLE IF NOT EXISTS piece_vehicule (
     id_piece_vehicule INTEGER PRIMARY KEY AUTOINCREMENT,
     piece_id INTEGER NOT NULL,

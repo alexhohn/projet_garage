@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1014</width>
+    <width>1000</width>
     <height>783</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1000</width>
+    <height>783</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1000</width>
+    <height>783</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -51,97 +63,102 @@
        <attribute name="title">
         <string>Rechercher</string>
        </attribute>
-       <widget class="QLineEdit" name="lineEdit">
-        <property name="geometry">
-         <rect>
-          <x>160</x>
-          <y>30</y>
-          <width>131</width>
-          <height>31</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_Recherche">
-        <property name="geometry">
-         <rect>
-          <x>310</x>
-          <y>30</y>
-          <width>131</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Rechercher</string>
-        </property>
-       </widget>
-       <widget class="QTableWidget" name="tableWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>80</y>
-          <width>951</width>
-          <height>531</height>
-         </rect>
-        </property>
-        <property name="editTriggers">
-         <set>QAbstractItemView::NoEditTriggers</set>
-        </property>
-        <column>
-         <property name="text">
-          <string>No. article</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Pièce</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Fournisseur</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Quantité en stock</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Date d'aquisition</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Date dernière vente</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Prix de vente</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Emplacement</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Chemin image</string>
-         </property>
-        </column>
-       </widget>
-       <widget class="QComboBox" name="comboBox_Recherche">
-        <property name="geometry">
-         <rect>
-          <x>19</x>
-          <y>31</y>
-          <width>131</width>
-          <height>31</height>
-         </rect>
-        </property>
-       </widget>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit"/>
+          </item>
+          <item row="1" column="0" colspan="4">
+           <widget class="QTableWidget" name="tableWidget">
+            <property name="verticalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOn</enum>
+            </property>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOn</enum>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="sortingEnabled">
+             <bool>true</bool>
+            </property>
+            <column>
+             <property name="text">
+              <string>No. article</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Pièce</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Fournisseur</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Quantité en stock</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Date d'aquisition</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Date dernière vente</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Prix de vente</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Emplacement</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Chemin image</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QPushButton" name="pushButton_Recherche">
+            <property name="text">
+             <string>Rechercher</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QComboBox" name="comboBox_Recherche"/>
+          </item>
+          <item row="0" column="2">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::MinimumExpanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="TabModifier">
        <attribute name="title">
@@ -260,7 +277,7 @@
           <x>10</x>
           <y>40</y>
           <width>521</width>
-          <height>591</height>
+          <height>401</height>
          </rect>
         </property>
         <layout class="QFormLayout" name="formLayout">
@@ -274,142 +291,14 @@
          <item row="0" column="1">
           <widget class="QComboBox" name="comboBox_Piece"/>
          </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_3">
+         <item row="1" column="1">
+          <widget class="QPushButton" name="pushButton_newPiece">
            <property name="text">
-            <string>Emplacement</string>
+            <string>Nouvelle pièce</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QComboBox" name="comboBox_Emplacement"/>
-         </item>
-         <item row="3" column="1">
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Quantité en stock</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QSpinBox" name="spinBox_Quantite"/>
-         </item>
-         <item row="5" column="1">
-          <spacer name="verticalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="6" column="0">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>Dernier achat</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="1">
-          <widget class="QDateEdit" name="dateEdit_LastBuy"/>
-         </item>
-         <item row="7" column="1">
-          <spacer name="verticalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="8" column="0">
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string>Dernière vente</string>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="1">
-          <widget class="QDateEdit" name="dateEdit_LastSell"/>
-         </item>
-         <item row="9" column="1">
-          <spacer name="verticalSpacer_5">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="10" column="0">
-          <widget class="QLabel" name="label_6">
-           <property name="text">
-            <string>Prix de vente</string>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_SellPrice"/>
-         </item>
-         <item row="11" column="1">
-          <spacer name="verticalSpacer_6">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="12" column="0">
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>Cehmin vers l'image</string>
-           </property>
-          </widget>
-         </item>
-         <item row="12" column="1">
-          <widget class="QToolButton" name="toolButton">
-           <property name="minimumSize">
-            <size>
-             <width>23</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
           <spacer name="verticalSpacer">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -422,12 +311,168 @@
            </property>
           </spacer>
          </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Emplacement</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QComboBox" name="comboBox_Emplacement"/>
+         </item>
+         <item row="4" column="1">
+          <widget class="QPushButton" name="pushButton_NewEmplacement">
+           <property name="text">
+            <string>Nouvel emplacement</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="1">
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="10" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Quantité en stock</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="1">
+          <widget class="QSpinBox" name="spinBox_Quantite">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="1">
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="12" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Dernier achat</string>
+           </property>
+          </widget>
+         </item>
+         <item row="12" column="1">
+          <widget class="QDateEdit" name="dateEdit_LastBuy"/>
+         </item>
          <item row="13" column="1">
-          <widget class="QPushButton" name="pushButton_Ajouter">
+          <spacer name="verticalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="14" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Dernière vente</string>
+           </property>
+          </widget>
+         </item>
+         <item row="14" column="1">
+          <widget class="QDateEdit" name="dateEdit_LastSell"/>
+         </item>
+         <item row="15" column="1">
+          <spacer name="verticalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="16" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Prix de vente</string>
+           </property>
+          </widget>
+         </item>
+         <item row="16" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_SellPrice"/>
+         </item>
+         <item row="17" column="1">
+          <spacer name="verticalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="18" column="1">
+          <widget class="QPushButton" name="pushButton_AjouterArticle">
            <property name="text">
             <string>Ajouter</string>
            </property>
           </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Fournisseur</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QComboBox" name="comboBox_Supplier"/>
+         </item>
+         <item row="7" column="1">
+          <widget class="QPushButton" name="pushButton_NewSupplier">
+           <property name="text">
+            <string>Nouveau fournisseur</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <spacer name="verticalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </widget>
@@ -439,8 +484,22 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
+  <tabstop>comboBox_Recherche</tabstop>
   <tabstop>lineEdit</tabstop>
   <tabstop>pushButton_Recherche</tabstop>
+  <tabstop>tableWidget</tabstop>
+  <tabstop>tableWidget_3</tabstop>
+  <tabstop>pushButton_Modifier</tabstop>
+  <tabstop>pushButton_Supprimer</tabstop>
+  <tabstop>spinBox_Quantite</tabstop>
+  <tabstop>comboBox_Emplacement</tabstop>
+  <tabstop>pushButton_newPiece</tabstop>
+  <tabstop>dateEdit_LastBuy</tabstop>
+  <tabstop>dateEdit_LastSell</tabstop>
+  <tabstop>comboBox_Piece</tabstop>
+  <tabstop>doubleSpinBox_SellPrice</tabstop>
+  <tabstop>pushButton_AjouterArticle</tabstop>
+  <tabstop>pushButton_NewEmplacement</tabstop>
  </tabstops>
  <resources/>
  <connections/>
