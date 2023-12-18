@@ -1,3 +1,6 @@
+
+PRAGMA foreign_keys = OFF
+
 --supprmier les tables 
 DROP TABLE IF EXISTS article_area;
 DROP TABLE IF EXISTS article;
@@ -97,33 +100,33 @@ CREATE TABLE IF NOT EXISTS piece_vehicule (
 -- Insertion dans la table supplier
 INSERT INTO supplier (name, adress, zip, country, name_resp, telephone, email)
 VALUES 
-    ('Supplier 1', 'Address 1', 12345, 'Country 1', 'Manager 1', 123456789, 'email1@example.com'),
-    ('Supplier 2', 'Address 2', 23456, 'Country 2', 'Manager 2', 234567890, 'email2@example.com'),
-    ('Supplier 3', 'Address 3', 34567, 'Country 3', 'Manager 3', 345678901, 'email3@example.com');
+    ('Deredinger', 'Address 1', 12345, 'Country 1', 'Manager 1', 123456789, 'email1@example.com'),
+    ('Technomag', 'Address 2', 23456, 'Country 2', 'Manager 2', 234567890, 'email2@example.com'),
+    ('AutoParts', 'Address 3', 34567, 'Country 3', 'Manager 3', 345678901, 'email3@example.com');
 
 -- Insertion dans la table manufacturer
 INSERT INTO manufacturer (name, adress, zip, country)
 VALUES 
-    ('Manufacturer 1', 'Manufacturer Address 1', 54321, 'Manufacturer Country 1'),
-    ('Manufacturer 2', 'Manufacturer Address 2', 65432, 'Manufacturer Country 2'),
-    ('Manufacturer 3', 'Manufacturer Address 3', 76543, 'Manufacturer Country 3');
+    ('Audi', 'Manufacturer Address 1', 54321, 'Manufacturer Country 1'),
+    ('BMW', 'Manufacturer Address 2', 65432, 'Manufacturer Country 2'),
+    ('VW', 'Manufacturer Address 3', 76543, 'Manufacturer Country 3');
 
 -- Insertion dans la table area
 INSERT INTO area (name)
 VALUES 
-    ('Area 1'),
-    ('Area 2'),
-    ('Area 3');
+    ('Sous-sol'),
+    ('Garage'),
+    ('Hangar');
 
 -- Insertion dans la table piece (6 pièces)
 INSERT INTO piece (manufacturer_id, name, ean_number, description, unit_price)
 VALUES 
-    (1, 'Piece 1', 1234567890123, 'Description for Piece 1', 10.50),
-    (1, 'Piece 2', 2345678901234, 'Description for Piece 2', 15.75),
-    (1, 'Piece 3', 3456789012345, 'Description for Piece 3', 20.00),
-    (2, 'Piece 4', 4567890123456, 'Description for Piece 4', 25.25),
-    (2, 'Piece 5', 5678901234567, 'Description for Piece 5', 30.50),
-    (3, 'Piece 6', 6789012345678, 'Description for Piece 6', 35.75);
+    (1, 'Essuie-glace', 1234567890123, 'Description for Piece 1', 10.50),
+    (1, 'Joint de culasse', 2345678901234, 'Description for Piece 2', 15.75),
+    (1, 'Phare avant gauche', 3456789012345, 'Description for Piece 3', 20.00),
+    (2, 'Essuie-glace', 4567890123456, 'Description for Piece 4', 25.25),
+    (2, 'Boulon antivol', 5678901234567, 'Description for Piece 5', 30.50),
+    (3, 'Jante', 6789012345678, 'Description for Piece 6', 35.75);
 
 -- Insertion dans la table article (8 articles)
 INSERT INTO article (piece_id, supplier_id, quantity_stock, last_purchase_date, last_sale_date, selling_price, picture_path)
@@ -152,9 +155,9 @@ VALUES
 -- Insertion dans la table vehicule (3 véhicules)
 INSERT INTO vehicule (manufacturer_id, model, year, engine_type)
 VALUES 
-    (1, 'Car Model 1', 2023, 'Petrol'),
-    (2, 'Car Model 2', 2023, 'Diesel'),
-    (3, 'Car Model 3', 2023, 'Electric');
+    (1, 'Quattro 20v', 1991, '2.5L Essence'),
+    (2, 'E39 Touring', 2002, 'Diesel'),
+    (3, 'Polo 3', 1998, 'Essence');
 
 -- Insertion dans la table piece_vehicule (6 pièces)
 INSERT INTO piece_vehicule (piece_id, vehicule_id)

@@ -5,6 +5,11 @@ from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
 
+
+#Faire en soirte que le répertoir de travail soit le même que le fichier main.py
+dir_path = os.path.dirname(os.path.abspath(__file__))
+os.chdir(dir_path)
+
 # Handle high resolution displays:
 if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
@@ -545,7 +550,7 @@ class MainWindow(QMainWindow):
         
 
          # Vérifiez si tous les champs nécessaires sont remplis
-        if not piece_id or not area_id or not supplier_id or not quantity_stock or not last_purchase_date or not picture_path <= 0:
+        if not piece_id or not area_id or not supplier_id or not quantity_stock or not last_purchase_date or not picture_path :
             self.show_message_box("Erreur", "Veuillez remplir tous les champs nécessaires.")
             return
 

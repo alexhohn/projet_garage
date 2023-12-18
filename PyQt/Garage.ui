@@ -324,8 +324,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>521</width>
-          <height>401</height>
+          <width>961</width>
+          <height>711</height>
          </rect>
         </property>
         <layout class="QFormLayout" name="formLayout">
